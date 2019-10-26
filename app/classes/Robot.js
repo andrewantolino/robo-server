@@ -1,4 +1,4 @@
-class Pacman {
+class Robot {
   constructor() {
     this.positionX;
     this.positionY;
@@ -14,7 +14,7 @@ class Pacman {
 
   // Set initial orientation when placed on the board
   turn(direction) {
-    // Rotate pacman 90 degrees depending on input
+    // Rotate robot 90 degrees depending on input
     if (direction == 'LEFT') {
       // Move to the orientation left of current orientation
       // e.g. if current orientation == 'N' and input == 'LEFT', set orientation to 'W'
@@ -108,4 +108,4 @@ class Pacman {
   }
 }
 
-module.exports = Pacman;
+module.exports = Robot;
