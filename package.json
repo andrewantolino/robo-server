@@ -1,11 +1,11 @@
 {
-  "name": "pacman-simulator",
+  "name": "robo-server",
   "version": "1.0.0",
-  "description": "A simple pacman simulator",
-  "main": "index.js",
+  "description": "Robo Client application server. Listens for HTTP requests and sends back requested data.",
+  "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrewantolino/node-pacman"
+    "url": "https://github.com/andrewantolino/robo-server"
   },
   "scripts": {
     "test": "mocha"
