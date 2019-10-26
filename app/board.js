@@ -1,5 +1,5 @@
 const GameBoard = require('./classes/GameBoard');
-const Pacman = require('./classes/Pacman');
+const Robot = require('./classes/Robot');
 
 // entry point of the app
 // feed commands to the classes here and simulate user input
@@ -7,7 +7,7 @@ const gameBoard = new GameBoard(4, 4);
 
 gameBoard.createGameBoard();
 
-const pacman = new Pacman();
+const robot = new Robot();
 
 // get values 1, 1 and 'E' from user input somehow?
 
@@ -17,11 +17,11 @@ const pacman = new Pacman();
 const input = [0, 0, "NORTH"];
 
 gameBoard.place(...input);
-pacman.setPosition(...input);
+robot.setPosition(...input);
 
-pacman.move(gameBoard);
+robot.move(gameBoard);
 
-console.log(pacman.report()); // 0,1,NORTH
+console.log(robot.report()); // 0,1,NORTH
 
 
 // b)
@@ -32,11 +32,11 @@ console.log(pacman.report()); // 0,1,NORTH
 const input2 = [0, 0, "NORTH"];
 
 gameBoard.place(...input2);
-pacman.setPosition(...input2);
+robot.setPosition(...input2);
 
-pacman.turn("LEFT");
+robot.turn("LEFT");
 
-console.log(pacman.report()); // 0,0,WEST
+console.log(robot.report()); // 0,0,WEST
 
 
 // c)
@@ -51,24 +51,24 @@ console.log(pacman.report()); // 0,0,WEST
 const input3 = [1, 2, "EAST"];
 
 gameBoard.place(...input3);
-pacman.setPosition(...input3);
+robot.setPosition(...input3);
 
-pacman.move(gameBoard);
-pacman.move(gameBoard);
-pacman.turn("LEFT");
-pacman.move(gameBoard);
+robot.move(gameBoard);
+robot.move(gameBoard);
+robot.turn("LEFT");
+robot.move(gameBoard);
 
-console.log(pacman.report()); // 3,3,NORTH
+console.log(robot.report()); // 3,3,NORTH
 
-// d) move pacman off the grid
+// d) move robot off the grid
 
 const input4 = [1, 1, "SOUTH"];
 
 gameBoard.place(...input4);
-pacman.setPosition(...input4);
+robot.setPosition(...input4);
 
-pacman.move(gameBoard);
-pacman.move(gameBoard);
-pacman.move(gameBoard);
+robot.move(gameBoard);
+robot.move(gameBoard);
+robot.move(gameBoard);
 
-console.log(pacman.report());
+console.log(robot.report());
