@@ -12,7 +12,7 @@ const inquirer = require('inquirer');
 
 // entry point of the app
 // feed commands to the classes here and simulate user input
-const gameBoard = new GameBoard(4, 4);
+const gameBoard = new GameBoard(5, 5);
 
 gameBoard.createGameBoard();
 
@@ -29,19 +29,25 @@ function inputMove() {
   if (initialMove) {
     inquirer.prompt([
       {
-        type: 'input',
-        name: 'Place',
-        message: 'Place the robot on the board'
+        type: "input",
+        name: "coords",
+        message: "Place the robot on the board"
       }
     ])
-    .then(startPos => {
+    .then(inputObj => {
       // ui.log.write('startPos', startPos);
+      console.log("startPos", inputObj);
+      // Inquirer returns object containing a string. Split into array for setPosition function
+      const startPos = inputObj.coords.split(',');
+      console.log(startPos);
+      robot.setPosition(...startPos);
       // call robot.setPosition(...startPos) with input - assuming startPos is an array
       // Call inputMove again for next move
       inputMove();
     })
     .catch(err => {
-      ui.log("Input error: ", err);
+      ui.log.write("Input error: ", err);
+      console.log(err);
     });
 
     initialMove = false;
@@ -49,15 +55,29 @@ function inputMove() {
     // If subsequent move, listen for TURN or MOVE
     inquirer.prompt([
       {
-        type: 'input',
-        name: 'Move',
-        message: 'Next move'
+        type: "input",
+        name: "input",
+        message: "Next move"
       }
     ])
     .then(move => {
-      if (move === 'EXIT') {
+      if (move.input === "EXIT") {
         return;
       }
+      if (move.input === "MOVE") {
+        robot.move(gameBoard);
+      }
+      if (move.input === "LEFT") {
+        robot.turn("LEFT");
+      }
+      if (move.input === "RIGHT") {
+        robot.turn("RIGHT");
+      }
+      if (move.input === "REPORT") {
+        console.log(robot.report());
+        // robot.report();
+      }
+      inputMove();
       // if move == 'MOVE', do move logic
       // if move == 'LEFT' or 'RIGHT', do turn logic
       // if move == 'EXIT', don't call inputMove() again
@@ -65,21 +85,23 @@ function inputMove() {
   }
 }
 
-inquirer.prompt([
-  {
-    type: 'input',
-    name: 'Place',
-    message: 'Place the robot on the board'
-  },
-  {
-    type: 'input',
-    name: 'Move',
-    message: 'Next move'
-  }
-])
-.then(answers => {
-  console.log(answers);
-});
+// inquirer.prompt([
+//   {
+//     type: 'input',
+//     name: 'Place',
+//     message: 'Place the robot on the board'
+//   },
+//   {
+//     type: 'input',
+//     name: 'Move',
+//     message: 'Next move'
+//   }
+// ])
+// .then(answers => {
+//   console.log(answers);
+// });
+
+inputMove();
 
 // get values 1, 1 and 'E' from user input somehow?
 
