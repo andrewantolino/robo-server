@@ -67,6 +67,8 @@ Robot.prototype.turn = function(direction) {
       if (this.directionObj[key] == this.orientation) {
         // validate key:
         // if key - 1 == -1, no index exists
+        key = parseInt(key);
+
         key = key - 1 == -1 ? 3 : parseInt(key) - 1;
         newOrientation = this.directionObj[key];
       }
@@ -82,6 +84,7 @@ Robot.prototype.turn = function(direction) {
       if (this.directionObj[key] == this.orientation) {
         // validate key:
         // if key + 1 == 4, no index exists in `directionObj`
+        key = parseInt(key);
         key = key + 1 == 4 ? 0 : parseInt(key) + 1;
 
         newOrientation = this.directionObj[key];
