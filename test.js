@@ -1,6 +1,6 @@
 const assert = require('assert');
 const GameBoard = require('./app/classes/GameBoard');
-const Pacman = require('./app/classes/Pacman');
+const Robot = require('./app/classes/Robot');
 
 it("should create a 2 x 2 grid", () => {
   const gameBoard = new GameBoard(2, 2);
@@ -11,7 +11,7 @@ it("should create a 2 x 2 grid", () => {
   });
 });
 
-it("should check that pacman was placed within the game board", () => {
+it("should check that robot was placed within the game board", () => {
   const gameBoard = new GameBoard(5, 3);
   gameBoard.createGameBoard();
 
@@ -31,70 +31,70 @@ it("should check that pacman was placed within the game board", () => {
   assert.equal(place5, true);
 });
 
-it("should report pacman's position", () => {
+it("should report robot's position", () => {
   const gameBoard = new GameBoard(4, 4);
   gameBoard.createGameBoard();
   
-  const pacman = new Pacman();
+  const robot = new Robot();
   const coords = [2, 3, 'WEST'];
-  pacman.setPosition(...coords);
+  robot.setPosition(...coords);
 
-  assert.equal(pacman.report(), '2,3,WEST');
+  assert.equal(robot.report(), '2,3,WEST');
 });
 
-it("should move pacman in the direction of his orientation", () => {
+it("should move robot in the direction of his orientation", () => {
   const gameBoard = new GameBoard(4, 4);
   gameBoard.createGameBoard();
   
-  const pacman = new Pacman();
+  const robot = new Robot();
   const coords = [2, 3, 'WEST'];
   
   gameBoard.place(...coords);
-  pacman.setPosition(...coords);
+  robot.setPosition(...coords);
 
-  let updatedPacman;
+  let updatedRobot;
 
-  updatedPacman = pacman.move(gameBoard);
+  updatedRobot = robot.move(gameBoard);
   
-  assert.equal(updatedPacman, '1,3,WEST');
+  assert.equal(updatedRobot, '1,3,WEST');
 });
 
 it("should check move is within game board", () => {
   const gameBoard = new GameBoard(4, 4);
   gameBoard.createGameBoard();
   
-  const pacman = new Pacman();
+  const robot = new Robot();
   const coords = [4, 3, 'EAST'];
   
-  pacman.setPosition(...coords);
+  robot.setPosition(...coords);
 
   // Simulate user input and check it
-  // This will be called within `pacman.move()`
+  // This will be called within `robot.move()`
   
-  // Assume user input, pacman.move() from 4, 3 facing east
+  // Assume user input, robot.move() from 4, 3 facing east
   // Therefore positionX == 5, positionX is an illegal move
-  const validMove = pacman.checkMove(5, 3, gameBoard);
+  const validMove = robot.checkMove(5, 3, gameBoard);
   
   assert.equal(validMove, false);
 
 });
 
-it("should change pacman's direction", () => {
+it("should change robot's direction", () => {
   const gameBoard = new GameBoard(4, 4);
   gameBoard.createGameBoard();
   
-  const pacman = new Pacman();
+  const robot = new Robot();
   var coords = [4, 3, 'EAST'];
   
-  pacman.setPosition(...coords);
-  pacman.turn("LEFT");
+  robot.setPosition(...coords);
+  robot.turn("LEFT");
 
-  assert.equal(pacman.report(), '4,3,NORTH');
+  assert.equal(robot.report(), '4,3,NORTH');
 
   coords = [2, 2, 'SOUTH'];
 
-  pacman.setPosition(...coords);
-  pacman.turn("RIGHT");
+  robot.setPosition(...coords);
+  robot.turn("RIGHT");
 
-  assert.equal(pacman.report(), '2,2,WEST')
+  assert.equal(robot.report(), '2,2,WEST')
 });
