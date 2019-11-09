@@ -51,7 +51,7 @@ Robot.prototype.checkMove = function(x, y, bounds) {
     return false;
   }
 
-    return true;
+  return true;
 }
 
 Robot.prototype.turn = function(direction) {
@@ -95,7 +95,7 @@ Robot.prototype.turn = function(direction) {
   }
 }
 
-Robot.prototype.setPosition = function(x, y, f) {
+Robot.prototype.place = function(x, y, f) {
   this.positionX = x;
   this.positionY = y;
   this.orientation = f;
