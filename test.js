@@ -37,7 +37,7 @@ it("should report robot's position", () => {
   
   const robot = new Robot();
   const coords = [2, 3, 'WEST'];
-  robot.setPosition(...coords);
+  robot.place(...coords);
 
   assert.equal(robot.report(), '2,3,WEST');
 });
@@ -50,7 +50,7 @@ it("should move robot in the direction of his orientation", () => {
   const coords = [2, 3, 'WEST'];
   
   gameBoard.place(...coords);
-  robot.setPosition(...coords);
+  robot.place(...coords);
 
   let updatedRobot;
 
@@ -66,7 +66,7 @@ it("should check move is within game board", () => {
   const robot = new Robot();
   const coords = [4, 3, 'EAST'];
   
-  robot.setPosition(...coords);
+  robot.place(...coords);
 
   // Simulate user input and check it
   // This will be called within `robot.move()`
@@ -86,14 +86,14 @@ it("should change robot's direction", () => {
   const robot = new Robot();
   var coords = [4, 3, 'EAST'];
   
-  robot.setPosition(...coords);
+  robot.place(...coords);
   robot.turn("LEFT");
 
   assert.equal(robot.report(), '4,3,NORTH');
 
   coords = [2, 2, 'SOUTH'];
 
-  robot.setPosition(...coords);
+  robot.place(...coords);
   robot.turn("RIGHT");
 
   assert.equal(robot.report(), '2,2,WEST')
