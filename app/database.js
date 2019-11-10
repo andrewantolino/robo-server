@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 function connect() {
   mongoose.connect('mongodb://localhost/robo', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   });
+
+  mongoose.set('debug', true);
   
   const db = mongoose.connection;
 
