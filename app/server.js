@@ -120,8 +120,7 @@ app.get('/report', (req, res) => {
   })
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(port);
+app.listen(port, () => {
   console.log(`Robo server listening on port ${port}`);
 });
 
