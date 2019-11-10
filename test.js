@@ -1,6 +1,6 @@
 const assert = require('assert');
 const GameBoard = require('./app/classes/GameBoard');
-const Robot = require('./app/classes/Robot');
+const Robot = require('./app/models/Robot');
 
 it("should create a 2 x 2 grid", () => {
   const gameBoard = new GameBoard(2, 2);

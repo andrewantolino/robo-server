@@ -1,5 +1,5 @@
 const GameBoard = require('./classes/GameBoard');
-const Robot = require('./classes/Robot');
+const Robot = require('./models/Robot');
 const inquirer = require('inquirer');
 
 const axios = require('axios');
