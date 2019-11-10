@@ -28,7 +28,7 @@ const gameId = Math.ceil(Math.random() * 10000);
 console.log("GAME ID:", gameId);
 
 // Place the robot
-app.post('/place', async (req, res) => {
+app.post('/place', (req, res) => {
   const data = req.body;
 
   if (isFirstTurn) {
@@ -37,27 +37,75 @@ app.post('/place', async (req, res) => {
   }
   
   if ( Robot.checkMove(data.x, data.y, gameBoard) && Robot.checkPlace(data.orientation) ) {
-    robot = new Robot();
+    const robot = new Robot();
 
     robot.place(data.x, data.y, data.orientation, gameId)
-    .then(result => {
-      console.log('THE RES', result);
-    })
-    .catch(err => {
-      console.log("Err:", err);
-    })
+      .then(robot => {
+        console.log("Placed robot:", robot);
+        res.status(200).json({
+          message: "Placed robot successfully",
+          updatedRobot: robot
+        });
+      })
+      .catch(err => {
+        console.log("Err:", err);
+      });
 
   } else {
-    return res.status(200).json({
-      message: "Illegal move, try again"
+    res.status(200).json({
+      message: "Robot out of bounds, try again"
     });
   }
+});
 
-  res.status(200).json({
-    message: "Got data and updated robot",
-    data: data,
-    updatedRobot: robot
+app.get('/move', (req, res) => {
+  Robot.findOne({gameId: gameId}, (err, robot) => {
+    if (err) console.log(err);
+
+    robot.move(gameBoard)
+      .then(robot => {
+        console.log("Moved robot:", robot);
+        res.status(200).json({
+          message: "Moved robot",
+          updatedRobot: robot
+        });
+      })
+      .catch(err => {
+        console.log("Move err:", err);
+        res.status(200).json({
+          message: "Robot out of bounds, try again"
+        });
+      });
   });
+});
+
+app.post('/turn', (req, res) => {
+  const data = req.body;
+
+  Robot.findOne({gameId: gameId}, async (err, robot) => {
+    if (err) console.log(err);
+    const updatedRobot = await robot.turn(data.direction)
+      .then(robot => {
+        console.log("5. Turned robot:", robot);
+        return robot;
+      })
+      .catch(err => {
+        console.log("Turn err:", err);
+        return res.status(200).json({
+          message: "Invalid turn parameter. Try again"
+        });
+      });
+
+      res.status(200).json({
+        message: "Turned robot",
+        updatedRobot: updatedRobot
+      });
+  });
+  console.log('===========================')
+});
+
+app.get('/report', (req, res) => {
+
 });
 
 app.listen(port, () => {
