@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
-const port = process.argv.PORT || 3000;
+// const port = process.env.PORT || 3000;
+const port = 3000;
 const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const db = require('./database');
+const db = require('./db');
 
 const Game = require('./game');
 const Robot = require('./models/Robot');
@@ -19,27 +20,29 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to database
-db.connect();
+// db.connect();
 
 let isFirstTurn = true;
 var gameBoard;
-var robot;
 const gameId = Math.ceil(Math.random() * 10000);
 console.log("GAME ID:", gameId);
 
+/**
+ *  Refactor -> `loadRoutes()`
+ */
 // Place the robot
 app.post('/place', (req, res) => {
   const data = req.body;
-
+  console.log('data', data);
   if (isFirstTurn) {
     gameBoard = Game.startGame(5, 5);
     isFirstTurn = false;
   }
   
-  if ( Robot.checkMove(data.x, data.y, gameBoard) && Robot.checkPlace(data.orientation) ) {
+  if ( Robot.checkMove(data.x, data.y, gameBoard) && Robot.checkPlace(data.f) ) {
     const robot = new Robot();
 
-    robot.place(data.x, data.y, data.orientation, gameId)
+    robot.place(data.x, data.y, data.f, gameId)
       .then(robot => {
         console.log("Placed robot:", robot);
         res.status(200).json({
@@ -52,17 +55,17 @@ app.post('/place', (req, res) => {
       });
 
   } else {
-    res.status(200).json({
+    res.status(422).json({
       message: "Robot out of bounds, try again"
     });
   }
 });
 
 app.get('/move', (req, res) => {
-  Robot.findOne({gameId: gameId}, (err, robot) => {
+  Robot.findOne({gameId: gameId}, async (err, robot) => {
     if (err) console.log('Error finding document:', err)
 
-    robot.move(gameBoard)
+    await robot.move(gameBoard)
       .then(robot => {
         console.log("Moved robot:", robot);
         res.status(200).json({
@@ -87,18 +90,19 @@ app.post('/turn', (req, res) => {
     const updatedRobot = await robot.turn(data.direction)
       .then(robot => {
         console.log("5. Turned robot:", robot);
-        return robot;
+        // return robot;
+        
+        res.status(200).json({
+          message: "Turned robot",
+          updatedRobot: robot
+        });
+        
       })
       .catch(err => {
         console.log("Turn err:", err);
         return res.status(200).json({
           message: "Invalid turn parameter. Try again"
         });
-      });
-
-      res.status(200).json({
-        message: "Turned robot",
-        updatedRobot: updatedRobot
       });
   });
   console.log('===========================')
@@ -116,11 +120,9 @@ app.get('/report', (req, res) => {
   })
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
+  console.log(port);
   console.log(`Robo server listening on port ${port}`);
-  
-  // Start the game - doesn't listen for HTTP requests, game is initialised by process
-  // Game(5, 5);
 });
 
 
