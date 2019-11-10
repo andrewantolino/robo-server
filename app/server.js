@@ -48,7 +48,7 @@ app.post('/place', (req, res) => {
         });
       })
       .catch(err => {
-        console.log("Err:", err);
+        console.log("[server.js] Placing error:", err);
       });
 
   } else {
@@ -60,7 +60,7 @@ app.post('/place', (req, res) => {
 
 app.get('/move', (req, res) => {
   Robot.findOne({gameId: gameId}, (err, robot) => {
-    if (err) console.log(err);
+    if (err) console.log('Error finding document:', err)
 
     robot.move(gameBoard)
       .then(robot => {
@@ -83,7 +83,7 @@ app.post('/turn', (req, res) => {
   const data = req.body;
 
   Robot.findOne({gameId: gameId}, async (err, robot) => {
-    if (err) console.log(err);
+    if (err) console.log('Error finding document:', err)
     const updatedRobot = await robot.turn(data.direction)
       .then(robot => {
         console.log("5. Turned robot:", robot);
@@ -105,7 +105,15 @@ app.post('/turn', (req, res) => {
 });
 
 app.get('/report', (req, res) => {
-
+  Robot.findOne({gameId: gameId}, async (err, robot) => {
+    if (err) console.log('Error finding document:', err)
+    res.status(200).json({
+      message: "Current location",
+      x: robot.positionX,
+      y: robot.positionY,
+      f: robot.orientation
+    });
+  })
 });
 
 app.listen(port, () => {

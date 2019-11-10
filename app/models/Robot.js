@@ -175,7 +175,14 @@ robotSchema.methods.turn = async function(direction) {
 }
 
 robotSchema.methods.report = function() {
-
+  const currentPosition = this.model('Robot').findOne({ gameId: this.gameId}).exec()
+    .then(robot => {
+      console.log("Got robot", robot);
+      return robot;
+    })
+    .catch(err => {
+      console.log("Reporting error:", err);
+    })
 }
 
 const Robot = mongoose.model('Robot', robotSchema);
