@@ -8,12 +8,14 @@
     "url": "https://github.com/andrewantolino/robo-server"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "dev": "nodemon app/server.js"
   },
   "author": "Andrew M Antolino",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^6.2.1"
+    "mocha": "^6.2.1",
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
     "axios": "^0.19.0",
