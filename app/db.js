@@ -18,7 +18,7 @@ const options = {
 };
 
 // const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
-const url = 'mongodb://robo:robopassword@127.0.0.1:27017/robo?authSource=admin'
+const url = 'mongodb://robo:robopassword@db:27017/robo?authSource=admin'
 console.log('theurl', url);
 console.log('username', process.env.MONGO_USERNAME);
 // console.log(process.env.DATABASE_URL);
