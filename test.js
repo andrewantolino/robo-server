@@ -31,18 +31,24 @@ it("should check that robot was placed within the game board", () => {
   assert.equal(place5, true);
 });
 
-it("should report robot's position", () => {
+it("should report robot's position", async () => {
   const gameBoard = new GameBoard(4, 4);
   gameBoard.createGameBoard();
   
   const robot = new Robot();
-  const coords = [2, 3, 'WEST'];
-  robot.place(...coords);
+  const coords = [2, 3, 'WEST', '1234'];
+  const report = await robot.place(...coords)
+    .then(robot => {
+      return robot;
+    })
+    .catch(err => {
+      console.log("err placing:", err);
+    });
 
-  assert.equal(robot.report(), '2,3,WEST');
+  assert.equal(report, '2,3,WEST');
 });
 
-it("should move robot in the direction of his orientation", () => {
+it("should move robot in the direction of its orientation", () => {
   const gameBoard = new GameBoard(4, 4);
   gameBoard.createGameBoard();
   
